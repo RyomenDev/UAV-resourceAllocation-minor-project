@@ -1,35 +1,19 @@
-#include "Outpost.hpp"
-//
+// #include "Outpost.h"
 
-Outpost::Outpost(int id, double distance, int urgency)
-    : id(id), distance(distance), urgency(urgency) {}
+// Outpost::Outpost(int id, double deadline, double weight_needed, std::pair<double, double> coordinates)
+//     : id(id), deadline(deadline), weight_needed(weight_needed), coordinates(coordinates) {}
 
-int Outpost::getId() const
+// double Outpost::priorityScore() const
+// {
+//     return 1.0 / deadline;
+// }
+
+#include "Outpost.h"
+
+Outpost::Outpost(int id, double deadline, double weight_needed, std::pair<double, double> coordinates)
+    : id(id), deadline(deadline), weight_needed(weight_needed), coordinates(coordinates) {}
+
+double Outpost::priorityScore() const
 {
-    return id;
-}
-
-double Outpost::getDistance() const
-{
-    return distance;
-}
-
-int Outpost::getUrgency() const
-{
-    return urgency;
-}
-
-void Outpost::addResource(const Resource &res)
-{
-    resources.push_back(res);
-}
-
-std::vector<Resource> &Outpost::getRequirements()
-{
-    return resources; // Mutable reference
-}
-
-const std::vector<Resource> &Outpost::getRequirements() const
-{
-    return resources; // Immutable reference
+    return 1.0 / deadline;
 }

@@ -1,103 +1,68 @@
-// Contains the main logic and program flow.
+// #include "Base.h"
 
+// int main()
+// {
+//     Base base(0.0, 0.0);
+
+//     base.addUAV(UAV(1, 50, 80, 500));
+//     base.addUAV(UAV(2, 45, 120, 400));
+//     base.addUAV(UAV(3, 55, 110, 450));
+//     base.addUAV(UAV(4, 60, 90, 600));
+
+//     base.addOutpost(Outpost(0, 0.5, 20, {25.0, 10.0}));
+//     base.addOutpost(Outpost(1, 1.0, 35, {15.0, 25.0}));
+//     base.addOutpost(Outpost(2, 0.67, 30, {20.0, 10.0}));
+
+//     base.allocateResources();
+
+//     return 0;
+// }
+
+#include "Base.h"
 #include <iostream>
-#include <vector>
-#include "UAV.hpp"
-#include "Outpost.hpp"
-#include "ResourceAllocator.hpp"
-#include "Resource.hpp"
 
 int main()
 {
-    // Define some UAVs with id, load capacity, and max distance
-    std::vector<UAV> uavs = {
-        UAV(1, 500, 100), // UAV 1: 500 units capacity, 100 km range
-        UAV(2, 300, 80)   // UAV 2: 300 units capacity, 80 km range
-    };
+    double base_x, base_y;
+    std::cout << "Enter Base coordinates (x y): ";
+    std::cin >> base_x >> base_y;
 
-    // Define some outposts
-    std::vector<Outpost> outposts;
+    Base base(base_x, base_y);
 
-    // Example input (replace this with user input or external input as needed)
-    Outpost outpost1(1, 30, 2);
-    outpost1.addResource(Resource("medicine", 300));
-    outpost1.addResource(Resource("food", 200));
+    int num_uavs;
+    std::cout << "Enter number of UAVs: ";
+    std::cin >> num_uavs;
 
-    Outpost outpost2(2, 50, 1);
-    outpost2.addResource(Resource("weapons", 400));
+    for (int i = 0; i < num_uavs; ++i)
+    {
+        int id;
+        double capacity, speed, max_distance;
+        std::cout << "Enter UAV " << i + 1 << " details (id capacity speed max_distance): ";
+        std::cin >> id >> capacity >> speed >> max_distance;
+        base.addUAV(UAV(id, capacity, speed, max_distance));
+    }
 
-    outposts.push_back(outpost1);
-    outposts.push_back(outpost2);
+    int num_outposts;
+    std::cout << "Enter number of Outposts: ";
+    std::cin >> num_outposts;
 
-    // Create resource allocator and allocate resources
-    ResourceAllocator allocator(uavs, outposts);
-    allocator.allocateResources();
+    for (int i = 0; i < num_outposts; ++i)
+    {
+        int id;
+        double deadline, weight_needed, x, y;
+        std::cout << "Enter Outpost " << i + 1 << " details (id deadline weight_needed x y): ";
+        std::cin >> id >> deadline >> weight_needed >> x >> y;
+        base.addOutpost(Outpost(id, deadline, weight_needed, {x, y}));
+    }
+
+    base.allocateResources();
 
     return 0;
 }
 
+/*
 
-// #include <iostream>
-// #include <vector>
-// #include "UAV.hpp"
-// #include "Outpost.hpp"
-// #include "ResourceAllocator.hpp"
+g++ -o uav_system main.cpp UAV.cpp Outpost.cpp Base.cpp
+./uav_system
 
-// int main()
-// {
-//     std::vector<UAV> uavs = {
-//         UAV(1, 500, 150, 2.5),
-//         UAV(2, 300, 100, 1.8),
-//         UAV(3, 700, 200, 3.0),
-//         UAV(4, 1000, 250, 4.0)};
-
-//     std::vector<Outpost> outposts;
-//     int numOutposts;
-
-//     std::cout << "Enter the number of outposts: ";
-//     std::cin >> numOutposts;
-
-//     for (int i = 0; i < numOutposts; ++i)
-//     {
-//         double distance;
-//         int urgency;
-
-//         std::cout << "Enter distance of outpost " << (i + 1) << " from base station (in km): ";
-//         std::cin >> distance;
-
-//         std::cout << "Enter urgency of the requirement for outpost " << (i + 1) << ": ";
-//         std::cin >> urgency;
-
-//         Outpost outpost(i + 1, distance, urgency);
-//         int numResources;
-//         std::cout << "Enter the number of resource types needed for outpost " << (i + 1) << ": ";
-//         std::cin >> numResources;
-
-//         for (int j = 0; j < numResources; ++j)
-//         {
-//             Resource res;
-//             std::cout << "Enter resource type (medicine/food/weapons): ";
-//             std::cin >> res.type;
-//             std::cout << "Enter amount of " << res.type << ": ";
-//             std::cin >> res.amount;
-//             res.unfulfilledAmount = res.amount;
-
-//             if (res.type == "medicine")
-//                 res.priority = 1;
-//             else if (res.type == "food")
-//                 res.priority = 2;
-//             else if (res.type == "weapons")
-//                 res.priority = 3;
-
-//             outpost.addResource(res);
-//         }
-
-//         outposts.push_back(outpost);
-//     }
-
-//     // Create ResourceAllocator and allocate resources
-//     ResourceAllocator allocator(uavs, outposts);
-//     allocator.allocateResources();
-
-//     return 0;
-// }
+*/
